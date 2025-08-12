@@ -1,0 +1,7 @@
+[general]
+import = [
+    "~/.config/alacritty/themes/nightfox.toml"
+]
+
+[selection]
+save_to_clipboard = true
