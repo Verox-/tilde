@@ -57,6 +57,7 @@ theme.widget_mem                                = theme.dir .. "/icons/mem.png"
 theme.widget_cpu                                = theme.dir .. "/icons/cpu.png"
 theme.widget_temp                               = theme.dir .. "/icons/temp.png"
 theme.widget_net                                = theme.dir .. "/icons/net.png"
+theme.widget_net_down				= theme.dir .. "/icons/net_down.png"
 theme.widget_hdd                                = theme.dir .. "/icons/hdd.png"
 theme.widget_music                              = theme.dir .. "/icons/note.png"
 theme.widget_music_on                           = theme.dir .. "/icons/note_on.png"
@@ -198,13 +199,20 @@ theme.volume.widget:buttons(awful.util.table.join(
 ))
 
 -- Net
-local neticon = wibox.widget.imagebox(theme.widget_net)
+local neticon = wibox.widget.imagebox(theme.widget_net_down)
 local net = lain.widget.net({
+    units = 1048576,
     settings = function()
+        if net_now.state == "up" then
+           neticon:set_image(theme.widget_net)
+        else 
+           neticon:set_image(theme.widget_net_down)
+        end
+
         widget:set_markup(markup.font(theme.font,
-                          markup("#7AC82E", " " .. string.format("%06.1f", net_now.received))
+                          markup("#7AC82E", " " .. string.format("%04.1f", net_now.received))
                           .. " " ..
-                          markup("#46A8C3", " " .. string.format("%06.1f", net_now.sent) .. " ")))
+                          markup("#46A8C3", " " .. string.format("%04.1f", net_now.sent) .. " ")))
     end
 })
 
