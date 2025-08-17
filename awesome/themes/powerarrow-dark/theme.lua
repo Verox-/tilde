@@ -67,6 +67,8 @@ theme.widget_vol_no                             = theme.dir .. "/icons/vol_no.pn
 theme.widget_vol_mute                           = theme.dir .. "/icons/vol_mute.png"
 theme.widget_mail                               = theme.dir .. "/icons/mail.png"
 theme.widget_mail_on                            = theme.dir .. "/icons/mail_on.png"
+theme.widget_load				= theme.dir .. "/icons/load.png"
+theme.widget_load_high				= theme.dir .. "icons/load_high.png"
 theme.tasklist_plain_task_name                  = false
 theme.tasklist_disable_icon                     = false
 theme.useless_gap                               = dpi(2)
@@ -139,6 +141,12 @@ local temp = lain.widget.temp({
 
 -- / fs
 local fsicon = wibox.widget.imagebox(theme.widget_hdd)
+-- I'm hijacking this icon because it's unused for load
+theme.load = lain.widget.sysload({
+    settings = function()
+	widget:set_markup(markup.font(theme.font, " " .. load_1 .. " " .. load_5 .. " " .. load_15 .. " "))
+    end
+})
 --[[ commented because it needs Gio/Glib >= 2.54
 theme.fs = lain.widget.fs({
     notification_preset = { fg = theme.fg_normal, bg = theme.bg_normal, font = "Terminus 10" },
@@ -289,6 +297,7 @@ function theme.at_screen_connect(s)
             temp.widget,
             arrl_ld,
             wibox.container.background(fsicon, theme.bg_focus),
+	    wibox.container.background(theme.load.widget, theme.bg_focus),
             --wibox.container.background(theme.fs.widget, theme.bg_focus),
             arrl_dl,
             baticon,
